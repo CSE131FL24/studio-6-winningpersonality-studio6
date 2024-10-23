@@ -12,9 +12,13 @@ public class RecursiveMethods {
 	 *         ...)
 	 */
 	public static double geometricSum(int n) {
+		if (n == 0) {
+			return 0;
+		}
+		double sum = 1/ (Math.pow(2, n)) + geometricSum (n-1);
 		
 			// FIXME compute the geometric sum for the first n terms recursively
-			return 0;
+			return sum;
 		
 	}
 	
@@ -29,8 +33,25 @@ public class RecursiveMethods {
 	 */
 	public static void circlesUponCircles(double xCenter, double yCenter, double radius,
 			double radiusMinimumDrawingThreshold) {
+		double bound = 5.0;
+		StdDraw.setXscale(-bound, bound);
+		StdDraw.setYscale(-bound, bound);
+		// base case
+		if (radius < radiusMinimumDrawingThreshold) {
+			return;
+		}
 		
-		// FIXME
+		StdDraw.setPenColor(StdDraw.BLACK);
+		StdDraw.circle (xCenter, yCenter, radius);
+		//top circle
+		circlesUponCircles (xCenter, yCenter + radius, radius/3, radiusMinimumDrawingThreshold);
+		//right circle
+		circlesUponCircles (xCenter + radius, yCenter, radius/3, radiusMinimumDrawingThreshold);
+		//bottom circle
+		circlesUponCircles (xCenter, yCenter - radius, radius/3, radiusMinimumDrawingThreshold);
+		//left circle
+		circlesUponCircles (xCenter - radius, yCenter, radius/3, radiusMinimumDrawingThreshold);
+
 	}
 
 	/**
@@ -40,10 +61,23 @@ public class RecursiveMethods {
 	 * @return an array with the same data as the input but it reverse order
 	 */
 	public static int[] toReversed(int[] array) {
+		//create a new array
+		int [] reversedArray = new int[array.length];
+		//call helper method
+		reversedHelper(array, reversedArray, 0);
+			return reversedArray;
 		
-			// FIXME create a helper method that can recursively reverse the given array
-			return new int[0];
-		
+	}
+	
+	public static void reversedHelper (int[] original, int[] reversed, int index) {
+		//base case
+		if (index >= original.length) {
+			return;
+		}
+		//set the current index in the reversed array
+		reversed[index] = original[original.length - 1 - index];
+		//next index
+		reversedHelper (original, reversed, index+1);
 	}
 	
 	/**
@@ -55,9 +89,11 @@ public class RecursiveMethods {
 	 * @return greatest common divisor of p and q
 	 */
 	public static int gcd(int p, int q) {
-		
-			// FIXME compute the gcd of p and q using recursion
-			return 0;
+		if (q == 0) {
+			return p;
+		}
+		return gcd(q, p % q );
+
 		
 	}
 
